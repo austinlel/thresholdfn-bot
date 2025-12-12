@@ -1,54 +1,338 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>ThresholdFN Bot</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThresholdFN - Competitive Fortnite Matchmaking</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background: #0a0a0a;
-            color: #fff;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1 { color: #00ff00; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px 0;
+            border-bottom: 2px solid #00ff00;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #00ff00;
+            text-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.2em;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        .discord-button {
+            display: inline-block;
+            background: #5865F2;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4);
+        }
+
+        .discord-button:hover {
+            background: #4752C4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.6);
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            border-left: 4px solid #00ff00;
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            color: #00ff00;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 1.05em;
+        }
+
+        li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #00ff00;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            background: rgba(0, 255, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+
+        .info-card h3 {
+            color: #00ff00;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .highlight {
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .contact-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            text-decoration: none;
+            color: #e0e0e0;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-link:hover {
+            background: rgba(0, 255, 0, 0.2);
+            border-color: #00ff00;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #666;
+        }
+
+        .stats-banner {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0, 255, 0, 0.05);
+            border-radius: 8px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-banner {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>ThresholdFN Matchmaking Bot</h1>
-    <p>Discord bot for Fortnite competitive matchmaking.</p>
-    
-    <h2>Features</h2>
-    <ul>
-        <li>ELO-based matchmaking</li>
-        <li>1v1, 2v2, 3v3, 4v4 modes</li>
-        <li>Statistics tracking</li>
-        <li>Leaderboards</li>
-    </ul>
-    
-    <h2>Privacy Policy</h2>
-    <p><strong>Information We Collect:</strong></p>
-    <ul>
-        <li>Discord User ID and Username</li>
-        <li>Epic Games Account ID and Display Name</li>
-        <li>Match statistics (wins, losses, ELO)</li>
-    </ul>
-    
-    <p><strong>Information We Don't Collect:</strong></p>
-    <ul>
-        <li>Passwords</li>
-        <li>Payment information</li>
-        <li>Personal identification data</li>
-    </ul>
-    
-    <p><strong>Data Usage:</strong><br>
-    Your data is used solely for matchmaking, ranking, and statistics.</p>
-    
-    <p><strong>Your Rights:</strong><br>
-    You can delete your data anytime using the /unlink command.</p>
-    
-    <p><strong>Contact:</strong> https://discord.gg/SmquhQvdM3 OR synapsezz04@gmail.com</p>
-    
-    <p><em>Last Updated: December 12, 2024</em></p>
+    <div class="container">
+        <header>
+            <h1>⚔️ ThresholdFN</h1>
+            <p class="tagline">Competitive Fortnite Matchmaking Bot</p>
+            <a href="https://discord.gg/SmquhQvdM3" target="_blank" class="discord-button">
+                🎮 Join Discord Server
+            </a>
+        </header>
+
+        <div class="stats-banner">
+            <div class="stat">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Players Matched</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Game Modes</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Uptime</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">🎯</span> Features</h2>
+            <ul>
+                <li><span class="highlight">ELO-based Matchmaking</span> - Competitive ranking system with fair matches</li>
+                <li><span class="highlight">Multiple Game Modes</span> - 1v1, 2v2, 3v3, and 4v4 battles</li>
+                <li><span class="highlight">Real-time Statistics</span> - Track your wins, losses, and rank progression</li>
+                <li><span class="highlight">Global Leaderboards</span> - Compete against the best players</li>
+                <li><span class="highlight">Win Streaks</span> - Build momentum and climb the ranks</li>
+                <li><span class="highlight">Head-to-Head Records</span> - Track your performance against specific opponents</li>
+                <li><span class="highlight">Daily Bonuses</span> - First win of the day rewards</li>
+                <li><span class="highlight">Match History</span> - Review all your past matches</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">📊</span> How It Works</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>1. Link Account</h3>
+                    <p>Connect your Epic Games account securely through OAuth</p>
+                </div>
+                <div class="info-card">
+                    <h3>2. Join Queue</h3>
+                    <p>Use <code>/queue</code> to enter matchmaking</p>
+                </div>
+                <div class="info-card">
+                    <h3>3. Play Match</h3>
+                    <p>Accept party invite and compete!</p>
+                </div>
+                <div class="info-card">
+                    <h3>4. Report Win</h3>
+                    <p>Winner uses <code>/reportwin</code> to update ELO</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">🏆</span> Rank Tiers</h2>
+            <ul>
+                <li><span class="highlight">🥉 Bronze</span> - 0-799 ELO</li>
+                <li><span class="highlight">🥈 Silver</span> - 800-999 ELO</li>
+                <li><span class="highlight">🥇 Gold</span> - 1000-1199 ELO</li>
+                <li><span class="highlight">💎 Diamond</span> - 1200-1399 ELO</li>
+                <li><span class="highlight">🏆 Master</span> - 1400+ ELO</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">🔒</span> Privacy Policy</h2>
+            
+            <h3 style="color: #fff; margin-top: 20px;">Information We Collect</h3>
+            <ul>
+                <li>Discord User ID and Username</li>
+                <li>Epic Games Account ID and Display Name</li>
+                <li>Match statistics (wins, losses, ELO)</li>
+                <li>Matchmaking history</li>
+            </ul>
+
+            <h3 style="color: #fff; margin-top: 20px;">Information We Don't Collect</h3>
+            <ul>
+                <li>Passwords or authentication tokens</li>
+                <li>Payment or financial information</li>
+                <li>Personal identification data (email, address, etc.)</li>
+                <li>Location or IP address</li>
+            </ul>
+
+            <h3 style="color: #fff; margin-top: 20px;">How We Use Your Data</h3>
+            <p>Your data is used <span class="highlight">exclusively</span> for:</p>
+            <ul>
+                <li>Matchmaking and ELO calculation</li>
+                <li>Statistics tracking and leaderboards</li>
+                <li>Match history and performance analytics</li>
+            </ul>
+
+            <h3 style="color: #fff; margin-top: 20px;">Your Rights</h3>
+            <ul>
+                <li>View your data anytime using <code>/stats</code></li>
+                <li>Delete your data anytime using <code>/unlink</code></li>
+                <li>Request data export by contacting us</li>
+            </ul>
+
+            <h3 style="color: #fff; margin-top: 20px;">Data Security</h3>
+            <p>We implement industry-standard security measures including encrypted database storage and secure OAuth authentication. Your data is never shared with third parties.</p>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">📞</span> Contact & Support</h2>
+            <p>Need help or have questions? Reach out to us:</p>
+            <div class="contact-links">
+                <a href="https://discord.gg/SmquhQvdM3" target="_blank" class="contact-link">
+                    💬 Discord Server
+                </a>
+                <a href="mailto:synapsezz04@gmail.com" class="contact-link">
+                    📧 Email Support
+                </a>
+            </div>
+        </div>
+
+        <footer>
+            <p>Last Updated: December 12, 2024</p>
+            <p style="margin-top: 10px;">ThresholdFN is not affiliated with Epic Games or Fortnite.</p>
+            <p style="margin-top: 5px;">By using this service, you agree to our privacy policy and Epic Games' Terms of Service.</p>
+        </footer>
+    </div>
 </body>
 </html>
